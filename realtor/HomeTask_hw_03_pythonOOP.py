@@ -1,7 +1,15 @@
 class House:
-    @classmethod
-    def final_price(cls):
-        pass
+    """ Класс содержащий информацию о домах"""
+
+    def __init__(self, price: float, area: float):
+        """ Инициализация обьекта дом с заданной площадью и ценой"""
+        self._price = price
+        self._area = area
+
+    def final_price(self, discount: float):
+        """Метод, который принимает в качестве параметра размер скидки и возвращает цену с учетом данной скидки."""
+        final_price = self._price * (100 - discount) * 0.01
+        return  final_price
 
 
 class Client:
@@ -54,7 +62,30 @@ class Client:
             print('Сделка проведена успешно!')
 
 
+class Account:
+    pass
 
+
+class Bank:
+    """ Класс Bank хранящий информацию о банковских реквизитах  клиентов"""
+
+    def __init__(self):
+        """Инициализирует хранение счетов в пустом списке."""
+        self.__accounts = []
+
+    def add_account(self, client: Client):
+        """Метод добавляющий нового клиента в банк."""
+        if client.name not in [acnt.client.name for acnt in self.__accounts]:
+            client_account = Account(client=client)
+            self.__accounts.append(client_account)
+            print(f'Для клиента {client.name} был создан банковский счет!')
+            return client_account
+        else:
+            raise ValueError(f' У клиента {client.name} имеется банковсий счет!')
+
+    def __str__(self):
+        banks_acnt = [accnt.client.name for accnt in self.__accounts]
+        return 'Клиенты банка: ' + str(banks_acnt)
 
 
 
