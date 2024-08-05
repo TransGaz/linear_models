@@ -9,14 +9,20 @@ class House:
     def final_price(self, discount: float):
         """Метод, который принимает в качестве параметра размер скидки и возвращает цену с учетом данной скидки."""
         final_price = self._price * (100 - discount) * 0.01
-        return  final_price
+        return final_price
+
+
+class SmallHouse(House):
+    """Дочерний класс Дома: предназначен для работы с домами площадью 42 кв.м."""
+
+    def __init__(self, price: float, area: float = 42.0):
+        super().__init__(price, area)
 
 
 class Client:
     """"
     Класс Client,  хранящий информацию о клиенте
     """
-
     default_name = 'John Doe'
     default_age = 99
 
@@ -63,7 +69,26 @@ class Client:
 
 
 class Account:
-    pass
+    """Класс Account хранящий информацию о cчетах  клиентов"""
+    default_amount = 0
+
+    def __init__(self, client: Client, amount: float = default_amount):
+        """ Метод инициализирующий счет клиента и передает информацию об нем"""
+        self.client = client
+        self.amount = amount
+
+    def __str__(self):
+        return f'{self.client}'
+
+    def __iadd__(self, other):
+        self.amount += other
+        return self.amount
+
+    def __isub__(self, other):
+        if other > self.amount:
+            print('Недостаточно средств. Сумма не может уходить в минус!')
+        else:
+            self.amount -= other
 
 
 class Bank:
@@ -84,12 +109,5 @@ class Bank:
             raise ValueError(f' У клиента {client.name} имеется банковсий счет!')
 
     def __str__(self):
-        banks_acnt = [accnt.client.name for accnt in self.__accounts]
-        return 'Клиенты банка: ' + str(banks_acnt)
-
-
-
-
-
-
-
+        banks_accnts = [accnt.client.name for accnt in self.__accounts]
+        return 'Клиенты банка: ' + str(banks_accnts)
