@@ -1,7 +1,7 @@
 import time
 import functools
 
-def benchmark(func):
+def benchmark_old(func):
     """Выводит время выполнения декорируемой функции"""
     
     @functools.wraps(func)
@@ -61,3 +61,17 @@ def memo(func):
       return fmemo.memo[memo_key]
       fmemo.memo = cache
       return fmemo		
+	  
+def benchmark(func):
+
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if not hasattr(func, 'called'):
+            func.called = True
+            start_time = time.time()
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            print(f"Время выполнения функции {func.__name__}: {end_time - start_time} секунд")
+        else:
+            result = func(*args, **kwargs)
+        return result
