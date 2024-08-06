@@ -1,13 +1,15 @@
 class House:
     """ Класс содержащий информацию о домах"""
 
+    default_discount = 0
+
     def __init__(self, price: float, area: float):
         """ Инициализация обьекта дом с заданной площадью и ценой"""
         self._price = price
         self._area = area
 
-    def final_price(self, discount: float):
-        """Метод, который принимает в качестве параметра размер скидки и возвращает цену с учетом данной скидки."""
+    def final_price(self, discount: int | float = 0) -> int | float:
+        """Рассчитывает цену дома с учетом информации о дисконте."""
         final_price = self._price * (100 - discount) * 0.01
         return final_price
 
@@ -34,11 +36,11 @@ class Client:
         self.__house = None
 
     def info(self):
-        """ Метод предоставляющий базовую информацию о клиенте"""
-        return f" Клиент- имя: {self.name}, возраст: {self.age}, дом: {self.__house}, счет: {self.__account}"
+        """Справочный метод: выводит информацию о клиенте."""
+        print(self.__str__())
 
     def __str__(self):
-        return self.info()
+        return f'Клиент: {self.name}, Возраст: {self.age}, Доступные средства: {self.__account.amount} руб.'
 
     @staticmethod
     def default_info(default_name=default_name, default_age=default_age):
@@ -60,7 +62,8 @@ class Client:
     def buy_house(self, house: House) -> None:
         """ Метод который будет проверять, что у человека достаточно денег для покупки, и совершать сделку."""
 
-        price = House.final_price()
+        price = house.final_price()
+
         if price > self.__account.amount:
             print('Внимание! У клиента недостаточно средств.')
         else:
@@ -111,3 +114,4 @@ class Bank:
     def __str__(self):
         banks_accnts = [accnt.client.name for accnt in self.__accounts]
         return 'Клиенты банка: ' + str(banks_accnts)
+    
