@@ -12,13 +12,10 @@ class Pet(Base):
     name = Column(String)
     photourls = Column(String)
     status = Column(String)
-    category = Column(Integer)
-    tag = Column(Integer)
-
-    #category_id = Column(Integer, ForeignKey("public.categories.categoryid"), name="categoryid")
-    #category = relationship("Category", remote_side=[id])
-    #tag_id = Column(Integer, ForeignKey("public.tags.tagid"), name="tagid")
-    #tag = relationship("Tags", remote_side=[id])
+    category_id = Column(Integer, ForeignKey("categories.categoryid"))
+    category = relationship("Category", back_populates="pets")
+    tag_id = Column(Integer, ForeignKey("tags.tagid"))
+    tag = relationship("Tags", back_populates="tags")
 
 
 class Category(Base):
