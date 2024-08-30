@@ -4,7 +4,7 @@ from sqlitedb import *
 from sqlalchemy.orm import Session
 from fastapi import Depends, FastAPI, Body
 from fastapi.responses import JSONResponse
-from schemas import PetGet, CategoryGet, TagGet
+from schemas import PetGet, CategoryGet, TagGet, PetRegister
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./clinic_app.db"
 
@@ -53,7 +53,7 @@ def get_pet(id, db: Session = Depends(get_db)):
     return pet
 
 
-@app.post("/api/pets", summary="Cоздать питомца")
+@app.post("/api/pets", response_model=PetRegister, summary="Cоздать питомца")
 def create_pet(data=Body(), db: Session = Depends(get_db)):
     """Функция, которая создает питомца из клиники и помещает запись в базу данных"""
 

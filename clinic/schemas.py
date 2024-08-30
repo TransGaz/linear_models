@@ -4,8 +4,14 @@ from pydantic import BaseModel
 
 
 class PetRegister(BaseModel):
-    name: str
-    surname: str
+    name: str = ""
+    photourls: str = ""
+    status: str = ""
+    category: Optional["CategoryGet"] = None
+    tag: Optional["TagGet"] = None
+
+    class Config:
+        from_attributes = True
 
 
 class PetGet(BaseModel):
